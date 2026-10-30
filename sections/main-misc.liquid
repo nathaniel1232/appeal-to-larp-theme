@@ -19,8 +19,11 @@
 
     {%- when '404' -%}
       <h1 class="display sm">Page not found</h1>
-      <p class="muted">This page went surfing.</p>
-      <a href="{{ routes.all_products_collection_url }}" class="btn btn-dark">Shop tees</a>
+      <p class="muted">There is nothing at <code>{{ request.path | escape }}</code>.</p>
+      <div class="cta-row">
+        <a href="{{ routes.root_url }}" class="btn btn-dark">Go to home page</a>
+        <a href="{{ routes.all_products_collection_url }}" class="btn btn-ghost">Shop tees</a>
+      </div>
 
     {%- when 'list-collections' -%}
       <h1 class="display sm">Collections</h1>
