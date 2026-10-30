@@ -1,0 +1,15 @@
+{%- comment -%} Usage: {% render 'icon', name: 'arrow' %} {%- endcomment -%}
+{%- case name -%}
+  {%- when 'arrow' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"/></svg>
+  {%- when 'truck' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M3 7h11v9H3zM14 10h4l3 3v3h-7"/><circle cx="7" cy="17" r="1.6"/><circle cx="17" cy="17" r="1.6"/></svg>
+  {%- when 'back' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M9 14 4 9l5-5"/><path d="M4 9h11a5 5 0 0 1 0 10h-3"/></svg>
+  {%- when 'lock' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+  {%- when 'sun-line' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M2 12h2M20 12h2M5 5l1.5 1.5M17.5 17.5 19 19M5 19l1.5-1.5M17.5 6.5 19 5"/></svg>
+  {%- when 'close' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M6 6l12 12M18 6 6 18"/></svg>
+  {%- when 'menu' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M4 8h16M4 16h16"/></svg>
+  {%- when 'bag' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><path d="M6 7h12l-1 13H7L6 7Z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>
+  {%- when 'search' -%}<svg viewBox="0 0 24 24" class="i" aria-hidden="true"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4-4"/></svg>
+  {%- when 'pine' -%}<svg viewBox="0 0 100 100" aria-hidden="true" fill="{{ color | default: 'currentColor' }}"><path d="M50 6 L67 32 L33 32 Z"/><path d="M50 22 L72 48 L28 48 Z"/><path d="M50 38 L77 64 L23 64 Z"/><path d="M50 54 L82 80 L18 80 Z"/><rect x="46.5" y="78" width="7" height="16"/></svg>
+  {%- when 'sun' -%}<svg viewBox="0 0 100 100" aria-hidden="true"><circle cx="50" cy="50" r="26" fill="#E8692B"/></svg>
+  {%- when 'wave' -%}<svg viewBox="0 0 100 100" aria-hidden="true" fill="none" stroke="#3E7C93" stroke-linecap="round"><path stroke-width="5" d="M10 46 q10 -7 20 0 q10 -7 20 0 q10 -7 20 0 q10 -7 20 0"/><path stroke-width="4" d="M20 62 q7.5 -5 15 0 q7.5 -5 15 0 q7.5 -5 15 0 q7.5 -5 15 0"/></svg>
+{%- endcase -%}

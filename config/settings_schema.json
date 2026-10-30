@@ -1,0 +1,59 @@
+[
+  {
+    "name": "theme_info",
+    "theme_name": "An Appeal to LARP",
+    "theme_version": "1.0.0",
+    "theme_author": "An Appeal to LARP",
+    "theme_documentation_url": "https://help.shopify.com/manual/online-store/themes",
+    "theme_support_url": "https://help.shopify.com/"
+  },
+  {
+    "name": "Store info",
+    "settings": [
+      {
+        "type": "number",
+        "id": "free_shipping_threshold",
+        "label": "Free shipping threshold (in your store currency)",
+        "default": 75,
+        "info": "Used in the cart bar and on product pages. Set the actual free shipping rate in Settings > Shipping."
+      },
+      {
+        "type": "number",
+        "id": "returns_days",
+        "label": "Return window (days)",
+        "default": 30
+      },
+      {
+        "type": "text",
+        "id": "shipping_note",
+        "label": "Shipping time",
+        "default": "Ships in 2 to 4 business days"
+      },
+      {
+        "type": "image_picker",
+        "id": "favicon",
+        "label": "Favicon"
+      }
+    ]
+  },
+  {
+    "name": "Social",
+    "settings": [
+      {
+        "type": "url",
+        "id": "social_tiktok",
+        "label": "TikTok"
+      },
+      {
+        "type": "url",
+        "id": "social_instagram",
+        "label": "Instagram"
+      },
+      {
+        "type": "url",
+        "id": "social_pinterest",
+        "label": "Pinterest"
+      }
+    ]
+  }
+]

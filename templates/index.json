@@ -1,0 +1,80 @@
+{
+  "sections": {
+    "hero": {
+      "type": "hero",
+      "settings": {}
+    },
+    "tees": {
+      "type": "featured-collection",
+      "settings": {}
+    },
+    "board": {
+      "type": "mood-board",
+      "blocks": {
+        "img1": {
+          "type": "image",
+          "settings": {}
+        },
+        "img2": {
+          "type": "image",
+          "settings": {}
+        },
+        "img3": {
+          "type": "image",
+          "settings": {}
+        },
+        "img4": {
+          "type": "image",
+          "settings": {}
+        },
+        "img5": {
+          "type": "image",
+          "settings": {}
+        },
+        "img6": {
+          "type": "image",
+          "settings": {}
+        },
+        "img7": {
+          "type": "image",
+          "settings": {}
+        },
+        "img8": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "img1",
+        "img2",
+        "img3",
+        "img4",
+        "img5",
+        "img6",
+        "img7",
+        "img8"
+      ],
+      "settings": {}
+    },
+    "story": {
+      "type": "story",
+      "settings": {}
+    },
+    "trust": {
+      "type": "trust-row",
+      "settings": {}
+    },
+    "signup": {
+      "type": "newsletter",
+      "settings": {}
+    }
+  },
+  "order": [
+    "hero",
+    "tees",
+    "board",
+    "story",
+    "trust",
+    "signup"
+  ]
+}

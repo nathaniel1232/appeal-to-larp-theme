@@ -1,0 +1,57 @@
+{
+  "sections": {
+    "intro": {
+      "type": "about",
+      "settings": {}
+    },
+    "board": {
+      "type": "mood-board",
+      "blocks": {
+        "img1": {
+          "type": "image",
+          "settings": {}
+        },
+        "img2": {
+          "type": "image",
+          "settings": {}
+        },
+        "img3": {
+          "type": "image",
+          "settings": {}
+        },
+        "img4": {
+          "type": "image",
+          "settings": {}
+        },
+        "img5": {
+          "type": "image",
+          "settings": {}
+        },
+        "img6": {
+          "type": "image",
+          "settings": {}
+        }
+      },
+      "block_order": [
+        "img1",
+        "img2",
+        "img3",
+        "img4",
+        "img5",
+        "img6"
+      ],
+      "settings": {
+        "show_motifs": false
+      }
+    },
+    "button": {
+      "type": "button-row",
+      "settings": {}
+    }
+  },
+  "order": [
+    "intro",
+    "board",
+    "button"
+  ]
+}

@@ -1,0 +1,14 @@
+<div class="center wrap">
+  <a href="{{ section.settings.link | default: routes.all_products_collection_url }}" class="btn btn-dark">{{ section.settings.label }} {% render 'icon', name: 'arrow' %}</a>
+</div>
+
+{% schema %}
+{
+  "name": "Button",
+  "settings": [
+    { "type": "text", "id": "label", "label": "Label", "default": "Shop tees" },
+    { "type": "url", "id": "link", "label": "Link" }
+  ],
+  "presets": [{ "name": "Button" }]
+}
+{% endschema %}

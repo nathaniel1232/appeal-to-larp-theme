@@ -1,0 +1,120 @@
+{%- assign current = product.selected_or_first_available_variant -%}
+<section class="wrap pdp" data-product data-section="{{ section.id }}">
+  <div class="gallery">
+    <div class="g-main">
+      <div class="slot{% if product.featured_media %} has-media{% endif %}">
+        {%- assign main_media = current.featured_media | default: product.featured_media -%}
+        {%- if main_media -%}
+          {{ main_media | image_url: width: 1600 | image_tag: class: 'slot-media', id: 'mainImage', loading: 'eager', sizes: '(min-width: 860px) 55vw, 100vw', widths: '600, 900, 1200, 1600', alt: main_media.alt | default: product.title }}
+        {%- else -%}
+          <div class="slot-fallback"><div class="empty-art">{% render 'icon', name: 'pine' %}<span>Product photo</span></div></div>
+        {%- endif -%}
+      </div>
+    </div>
+    {%- if product.media.size > 1 -%}
+      <div class="g-thumbs">
+        {%- for media in product.media limit: 8 -%}
+          <button type="button" class="slot has-media thumb{% if media.id == main_media.id %} on{% endif %}" data-thumb="{{ media | image_url: width: 1600 }}" data-media-id="{{ media.id }}" aria-label="Show image {{ forloop.index }}">
+            {{ media | image_url: width: 400 | image_tag: class: 'slot-media', loading: 'lazy', alt: '' }}
+          </button>
+        {%- endfor -%}
+      </div>
+    {%- endif -%}
+  </div>
+
+  <div class="buy">
+    <nav class="crumbs"><a href="{{ routes.all_products_collection_url }}">Shop</a> / {{ product.type | default: 'Tees' }}</nav>
+    <h1 class="pdp-title">{{ product.title }}</h1>
+    <div class="pdp-price" id="pdpPrice">
+      {%- if current.compare_at_price > current.price -%}<s>{{ current.compare_at_price | money }}</s>{%- endif -%}
+      <span>{{ current.price | money }}</span>
+    </div>
+
+    {%- form 'product', product, id: 'productForm', novalidate: 'novalidate' -%}
+      <input type="hidden" name="id" value="{{ current.id }}" id="variantId">
+
+      {%- unless product.has_only_default_variant -%}
+        {%- for option in product.options_with_values -%}
+          {%- assign n = option.name | downcase -%}
+          {%- assign is_color = false -%}
+          {%- if n == 'color' or n == 'colour' -%}{%- assign is_color = true -%}{%- endif -%}
+          <div class="opt" data-option-index="{{ forloop.index0 }}">
+            <div class="opt-head">
+              <span>{{ option.name }}: <b data-option-label>{{ option.selected_value }}</b></span>
+              {%- if n == 'size' and section.settings.size_guide != blank -%}<button type="button" class="link-btn" data-sizeguide>Size guide</button>{%- endif -%}
+            </div>
+            <div class="opt-vals">
+              {%- for value in option.values -%}
+                <button type="button" class="{% if is_color %}swatch c-{{ value | handleize }}{% else %}size{% endif %}{% if option.selected_value == value %} on{% endif %}" data-value="{{ value | escape }}" aria-label="{{ value | escape }}">{% unless is_color %}{{ value }}{% endunless %}</button>
+              {%- endfor -%}
+            </div>
+          </div>
+        {%- endfor -%}
+      {%- endunless -%}
+
+      <div class="buy-row">
+        <div class="stepper">
+          <button type="button" data-qty="-1" aria-label="Decrease">−</button>
+          <input type="number" name="quantity" value="1" min="1" id="qty" aria-label="Quantity">
+          <button type="button" data-qty="1" aria-label="Increase">+</button>
+        </div>
+        <button type="submit" class="btn btn-dark grow" id="addBtn" {% unless current.available %}disabled{% endunless %}>
+          {%- if current.available -%}Add to cart{%- else -%}Sold out{%- endif -%}
+        </button>
+      </div>
+      {%- if section.settings.show_dynamic_checkout -%}<div class="dynamic-checkout">{{ form | payment_button }}</div>{%- endif -%}
+    {%- endform -%}
+
+    <div class="ship-note">{% render 'icon', name: 'truck' %}<span id="shipNote" data-price="{{ current.price }}">Free shipping on orders over {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}</span></div>
+    <div class="pdp-trust"><span>{% render 'icon', name: 'back' %} {{ settings.returns_days }}-day returns</span><span>{% render 'icon', name: 'lock' %} Secure checkout</span></div>
+
+    <div class="acc">
+      {%- if product.description != blank -%}
+        <details open><summary>Details</summary><div class="rte">{{ product.description }}</div></details>
+      {%- endif -%}
+      <details><summary>Shipping &amp; returns</summary><p>{{ settings.shipping_note }}. Free shipping on orders over {{ settings.free_shipping_threshold | times: 100 | money_without_trailing_zeros }}. Unworn tees can be returned within {{ settings.returns_days }} days.</p></details>
+    </div>
+  </div>
+
+  <script type="application/json" id="productJson">{{ product | json }}</script>
+  {%- if section.settings.size_guide != blank -%}
+    <template id="sizeGuide"><h3 class="serif">Size guide</h3><div class="rte">{{ section.settings.size_guide }}</div></template>
+  {%- endif -%}
+</section>
+
+<div class="sticky-buy" id="stickyBuy">
+  <div class="wrap sb-inner">
+    {%- if product.featured_media -%}<div class="sb-thumb">{{ product.featured_media | image_url: width: 120 | image_tag: alt: '' }}</div>{%- endif -%}
+    <div class="sb-info"><b>{{ product.title }}</b><span id="sbPrice">{{ current.title }} · {{ current.price | money }}</span></div>
+    <button class="btn btn-dark" id="sbAdd" type="button">Add to cart</button>
+  </div>
+</div>
+
+{%- assign recs = product.collections.first.products -%}
+{%- if recs.size > 1 -%}
+  <section class="wrap section">
+    <div class="sec-head"><h2 class="h2">{{ section.settings.related_heading }}</h2></div>
+    <div class="grid">
+      {%- assign shown = 0 -%}
+      {%- for p in recs -%}
+        {%- if p.id != product.id and shown < 3 -%}
+          {% render 'product-card', product: p %}
+          {%- assign shown = shown | plus: 1 -%}
+        {%- endif -%}
+      {%- endfor -%}
+    </div>
+  </section>
+{%- endif -%}
+
+{% render 'trust' %}
+
+{% schema %}
+{
+  "name": "Product",
+  "settings": [
+    { "type": "checkbox", "id": "show_dynamic_checkout", "label": "Show Buy it now button", "default": true },
+    { "type": "text", "id": "related_heading", "label": "Related products heading", "default": "More tees" },
+    { "type": "richtext", "id": "size_guide", "label": "Size guide", "default": "<p>Flat measurements in cm. Boxy fit.</p><p><strong>S</strong> chest 51, length 69<br><strong>M</strong> chest 56, length 71<br><strong>L</strong> chest 61, length 74<br><strong>XL</strong> chest 66, length 76<br><strong>XXL</strong> chest 71, length 79</p>" }
+  ]
+}
+{% endschema %}

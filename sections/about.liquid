@@ -1,0 +1,22 @@
+<section class="wrap about">
+  <h1 class="display">{{ section.settings.heading_1 }}<br><em>{{ section.settings.heading_2 }}</em></h1>
+  <div class="about-media">{% render 'media-slot', image: section.settings.image, label: 'Wide image', class: 'r-219', sizes: '100vw' %}</div>
+  <div class="about-cols">
+    <p class="big-quote sm">{{ section.settings.quote }}</p>
+    <div class="about-text rte">{{ section.settings.text }}</div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "About intro",
+  "settings": [
+    { "type": "text", "id": "heading_1", "label": "Heading line 1", "default": "Out of work." },
+    { "type": "text", "id": "heading_2", "label": "Heading line 2 (italic, green)", "default": "Into the sun." },
+    { "type": "image_picker", "id": "image", "label": "Wide image" },
+    { "type": "textarea", "id": "quote", "label": "Quote", "default": "The pine tree stands for staying rooted while everything else changes." },
+    { "type": "richtext", "id": "text", "label": "Text", "default": "<p>An Appeal to LARP is for the people who stepped off the treadmill. No commute, no meetings, no boss checking the clock.</p><p>What is left is the good stuff: early light, salt water, long afternoons and time that is finally yours.</p>" }
+  ],
+  "presets": [{ "name": "About intro" }]
+}
+{% endschema %}

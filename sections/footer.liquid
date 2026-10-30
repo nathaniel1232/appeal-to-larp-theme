@@ -1,0 +1,36 @@
+<footer class="footer">
+  <div class="wrap footer-grid">
+    <div>
+      <div class="footer-logo"><span class="logo-mark">{% render 'icon', name: 'pine' %}</span> {{ section.settings.logo_text_1 }} <em>{{ section.settings.logo_text_2 }}</em></div>
+      <p class="muted">{{ section.settings.tagline }}</p>
+    </div>
+    <div>
+      <h4>{{ section.settings.menu.title | default: 'Shop' }}</h4>
+      {%- for link in section.settings.menu.links -%}<a href="{{ link.url }}">{{ link.title }}</a>{%- endfor -%}
+    </div>
+    <div>
+      <h4>Follow</h4>
+      {%- if settings.social_tiktok != blank -%}<a href="{{ settings.social_tiktok }}" target="_blank" rel="noopener">TikTok</a>{%- endif -%}
+      {%- if settings.social_instagram != blank -%}<a href="{{ settings.social_instagram }}" target="_blank" rel="noopener">Instagram</a>{%- endif -%}
+      {%- if settings.social_pinterest != blank -%}<a href="{{ settings.social_pinterest }}" target="_blank" rel="noopener">Pinterest</a>{%- endif -%}
+    </div>
+  </div>
+  <div class="wrap footer-base">
+    <span>© {{ 'now' | date: '%Y' }} {{ shop.name }}</span>
+    {%- if shop.enabled_payment_types.size > 0 -%}
+      <span class="pay">{% for type in shop.enabled_payment_types %}{{ type | payment_type_svg_tag: class: 'pay-icon' }}{% endfor %}</span>
+    {%- endif -%}
+  </div>
+</footer>
+
+{% schema %}
+{
+  "name": "Footer",
+  "settings": [
+    { "type": "text", "id": "logo_text_1", "label": "Logo text", "default": "an appeal to" },
+    { "type": "text", "id": "logo_text_2", "label": "Logo text (italic)", "default": "larp" },
+    { "type": "text", "id": "tagline", "label": "Tagline", "default": "Tees for the free." },
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "footer" }
+  ]
+}
+{% endschema %}

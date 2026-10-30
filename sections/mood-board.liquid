@@ -1,0 +1,70 @@
+<section class="wrap section">
+  {%- if section.settings.show_motifs -%}
+    <div class="motifs">
+      <div><span class="motif">{% render 'icon', name: 'pine', color: '#1F4A33' %}</span>{{ section.settings.motif_1 }}</div>
+      <div><span class="motif">{% render 'icon', name: 'sun' %}</span>{{ section.settings.motif_2 }}</div>
+      <div><span class="motif">{% render 'icon', name: 'wave' %}</span>{{ section.settings.motif_3 }}</div>
+    </div>
+  {%- elsif section.settings.heading != blank -%}
+    <div class="sec-head"><h2 class="h2">{{ section.settings.heading }}</h2></div>
+  {%- endif -%}
+
+  <div class="board">
+    {%- for block in section.blocks -%}
+      <div class="pin-wrap" {{ block.shopify_attributes }}>
+        {%- if block.settings.link != blank -%}<a href="{{ block.settings.link }}">{%- endif -%}
+        {% render 'media-slot', image: block.settings.image, label: 'Pinterest image', class: 'pin', sizes: '(min-width: 1080px) 25vw, 50vw' %}
+        {%- if block.settings.link != blank -%}</a>{%- endif -%}
+      </div>
+    {%- endfor -%}
+  </div>
+</section>
+<style>
+  {%- for block in section.blocks -%}
+    {%- assign h = forloop.index0 | times: 5 | modulo: 3 -%}
+    {%- case block.settings.shape -%}
+      {%- when 'tall' -%}{%- assign r = '2/3' -%}
+      {%- when 'portrait' -%}{%- assign r = '3/4' -%}
+      {%- when 'square' -%}{%- assign r = '1' -%}
+      {%- else -%}{%- if h == 0 -%}{%- assign r = '3/4' -%}{%- elsif h == 1 -%}{%- assign r = '2/3' -%}{%- else -%}{%- assign r = '1' -%}{%- endif -%}
+    {%- endcase -%}
+    #shopify-section-{{ section.id }} .pin-wrap:nth-child({{ forloop.index }}) .pin { aspect-ratio: {{ r }}; }
+  {%- endfor -%}
+</style>
+
+{% schema %}
+{
+  "name": "Pinterest board",
+  "settings": [
+    { "type": "checkbox", "id": "show_motifs", "label": "Show tree / sun / sea row", "default": true },
+    { "type": "text", "id": "motif_1", "label": "Motif 1", "default": "The tree" },
+    { "type": "text", "id": "motif_2", "label": "Motif 2", "default": "The sun" },
+    { "type": "text", "id": "motif_3", "label": "Motif 3", "default": "The sea" },
+    { "type": "text", "id": "heading", "label": "Heading (when motif row is off)" }
+  ],
+  "blocks": [
+    {
+      "type": "image",
+      "name": "Image",
+      "settings": [
+        { "type": "image_picker", "id": "image", "label": "Image" },
+        { "type": "select", "id": "shape", "label": "Shape", "default": "auto", "options": [
+          { "value": "auto", "label": "Auto" },
+          { "value": "tall", "label": "Tall" },
+          { "value": "portrait", "label": "Portrait" },
+          { "value": "square", "label": "Square" }
+        ] },
+        { "type": "url", "id": "link", "label": "Link" }
+      ]
+    }
+  ],
+  "max_blocks": 24,
+  "presets": [{
+    "name": "Pinterest board",
+    "blocks": [
+      { "type": "image" }, { "type": "image" }, { "type": "image" }, { "type": "image" },
+      { "type": "image" }, { "type": "image" }, { "type": "image" }, { "type": "image" }
+    ]
+  }]
+}
+{% endschema %}

@@ -1,0 +1,72 @@
+{%- comment -%} Usage: {% render 'product-card', product: product %} {%- endcomment -%}
+{%- liquid
+  assign first = product.selected_or_first_available_variant
+  assign size_index = -1
+  assign color_values = blank
+  for option in product.options_with_values
+    assign n = option.name | downcase
+    if n == 'size'
+      assign size_index = forloop.index0
+    elsif n == 'color' or n == 'colour'
+      assign color_values = option.values
+    endif
+  endfor
+-%}
+<article class="card reveal">
+  <div class="card-top">
+    <a href="{{ product.url }}" class="card-media">
+      <div class="slot{% if product.featured_media %} has-media{% endif %}">
+        {%- if product.featured_media -%}
+          {{ product.featured_media | image_url: width: 900 | image_tag: class: 'slot-media', loading: 'lazy', sizes: '(min-width: 860px) 33vw, 50vw', widths: '360, 540, 720, 900', alt: product.featured_media.alt | default: product.title }}
+          {%- if product.media[1] -%}
+            {{ product.media[1] | image_url: width: 900 | image_tag: class: 'slot-media alt', loading: 'lazy', sizes: '(min-width: 860px) 33vw, 50vw', widths: '360, 540, 720, 900', alt: '' }}
+          {%- endif -%}
+        {%- else -%}
+          <div class="slot-fallback"><div class="empty-art">{% render 'icon', name: 'pine' %}<span>Product photo</span></div></div>
+        {%- endif -%}
+      </div>
+      {%- if product.available == false -%}
+        <span class="badge">Sold out</span>
+      {%- elsif product.compare_at_price > product.price -%}
+        <span class="badge sale">Save {{ product.compare_at_price | minus: product.price | money_without_trailing_zeros }}</span>
+      {%- elsif product.tags contains 'new' or product.tags contains 'New' -%}
+        <span class="badge">New</span>
+      {%- endif -%}
+    </a>
+
+    {%- if product.available -%}
+      {%- if size_index >= 0 -%}
+        <div class="quick">
+          <span>Quick add</span>
+          <div>
+            {%- for v in product.variants -%}
+              {%- liquid
+                assign match = true
+                for o in v.options
+                  if forloop.index0 != size_index and o != first.options[forloop.index0]
+                    assign match = false
+                  endif
+                endfor
+              -%}
+              {%- if match -%}
+                <button type="button" data-quick-add="{{ v.id }}" {% unless v.available %}disabled{% endunless %}>{{ v.options[size_index] }}</button>
+              {%- endif -%}
+            {%- endfor -%}
+          </div>
+        </div>
+      {%- else -%}
+        <div class="quick"><button type="button" class="quick-one" data-quick-add="{{ first.id }}">Add to cart</button></div>
+      {%- endif -%}
+    {%- endif -%}
+  </div>
+  <div class="card-info">
+    <a href="{{ product.url }}">{{ product.title }}</a>
+    <span>
+      {%- if product.compare_at_price > product.price -%}<s>{{ product.compare_at_price | money_without_trailing_zeros }}</s> {% endif -%}
+      {%- if product.price_varies -%}From {% endif -%}{{ product.price | money_without_trailing_zeros }}
+    </span>
+  </div>
+  {%- if color_values != blank -%}
+    <div class="dots">{% for c in color_values %}<i class="dot c-{{ c | handleize }}" title="{{ c | escape }}"></i>{% endfor %}</div>
+  {%- endif -%}
+</article>

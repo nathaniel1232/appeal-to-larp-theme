@@ -1,0 +1,14 @@
+{
+  "current": {
+    "free_shipping_threshold": 75,
+    "returns_days": 30,
+    "shipping_note": "Ships in 2 to 4 business days"
+  },
+  "presets": {
+    "Default": {
+      "free_shipping_threshold": 75,
+      "returns_days": 30,
+      "shipping_note": "Ships in 2 to 4 business days"
+    }
+  }
+}

@@ -1,0 +1,16 @@
+<div class="scrim" id="scrim"></div>
+<aside class="drawer" id="drawer" aria-label="Cart" aria-hidden="true">
+  <div class="drawer-head">
+    <h3>Your cart</h3>
+    <button class="icon-btn" id="closeCart" aria-label="Close cart">{% render 'icon', name: 'close' %}</button>
+  </div>
+  <div class="ship-bar" id="shipBar"></div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-foot" id="drawerFoot"></div>
+  <template id="cartEmpty">
+    <div class="empty"><div class="empty-mark">{% render 'icon', name: 'pine' %}</div><p>Your cart is empty.</p><a href="{{ routes.all_products_collection_url }}" class="btn btn-dark">Shop tees</a></div>
+  </template>
+  <template id="cartTrust">
+    <div class="trust-mini"><span>{% render 'icon', name: 'lock' %} Secure checkout</span><span>{% render 'icon', name: 'back' %} {{ settings.returns_days }}-day returns</span></div>
+  </template>
+</aside>

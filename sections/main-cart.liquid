@@ -1,0 +1,36 @@
+<section class="wrap cart-page">
+  <h1 class="display sm">Your cart</h1>
+  {%- if cart.item_count > 0 -%}
+    <form action="{{ routes.cart_url }}" method="post" novalidate class="cart-form">
+      <div class="cart-lines">
+        {%- for item in cart.items -%}
+          <div class="line">
+            <a href="{{ item.url }}" class="line-thumb">{% if item.image %}{{ item.image | image_url: width: 300 | image_tag: alt: item.title }}{% endif %}</a>
+            <div class="line-info">
+              <a href="{{ item.url }}" class="line-name">{{ item.product.title }}</a>
+              {%- unless item.product.has_only_default_variant -%}<span class="muted">{{ item.variant.title }}</span>{%- endunless -%}
+              <div class="line-row">
+                <input class="qty-input" type="number" name="updates[]" value="{{ item.quantity }}" min="0" aria-label="Quantity">
+                <span>{{ item.final_line_price | money }}</span>
+              </div>
+              <a href="{{ item.url_to_remove }}" class="link-btn">Remove</a>
+            </div>
+          </div>
+        {%- endfor -%}
+      </div>
+      <div class="cart-summary">
+        <div class="sum"><span>Subtotal</span><span>{{ cart.total_price | money }}</span></div>
+        <p class="muted small">Taxes and shipping calculated at checkout.</p>
+        <button type="submit" name="checkout" class="btn btn-dark btn-block">Checkout</button>
+        <button type="submit" name="update" class="link-btn">Update cart</button>
+      </div>
+    </form>
+  {%- else -%}
+    <p class="muted">Your cart is empty.</p>
+    <a href="{{ routes.all_products_collection_url }}" class="btn btn-dark">Shop tees</a>
+  {%- endif -%}
+</section>
+
+{% schema %}
+{ "name": "Cart" }
+{% endschema %}

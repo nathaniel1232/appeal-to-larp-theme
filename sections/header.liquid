@@ -1,0 +1,43 @@
+<header class="header" id="header">
+  <div class="header-inner">
+    <button class="icon-btn menu-btn" id="menuBtn" aria-label="Menu" aria-expanded="false">{% render 'icon', name: 'menu' %}</button>
+    <nav class="nav nav-left">
+      {%- for link in section.settings.menu.links -%}
+        <a href="{{ link.url }}"{% if link.current %} aria-current="page"{% endif %}>{{ link.title }}</a>
+      {%- endfor -%}
+    </nav>
+    <a href="{{ routes.root_url }}" class="logo" aria-label="{{ shop.name }} home">
+      {%- if section.settings.logo != blank -%}
+        {{ section.settings.logo | image_url: width: 400 | image_tag: class: 'logo-img', style: 'height: 30px; width: auto;', alt: shop.name }}
+      {%- else -%}
+        <span class="logo-mark">{% render 'icon', name: 'pine' %}</span>
+        <span>{{ section.settings.logo_text_1 }} <em>{{ section.settings.logo_text_2 }}</em></span>
+      {%- endif -%}
+    </a>
+    <div class="nav nav-right">
+      <a href="{{ routes.search_url }}" class="icon-btn" aria-label="Search">{% render 'icon', name: 'search' %}</a>
+      <a href="{{ routes.cart_url }}" class="cart-btn" id="cartBtn" aria-label="Open cart">
+        {% render 'icon', name: 'bag' %}
+        <span class="cart-count{% if cart.item_count > 0 %} show{% endif %}" id="cartCount">{{ cart.item_count }}</span>
+      </a>
+    </div>
+  </div>
+</header>
+
+<div class="mobile-nav" id="mobileNav">
+  {%- for link in section.settings.menu.links -%}
+    <a href="{{ link.url }}">{{ link.title }}</a>
+  {%- endfor -%}
+</div>
+
+{% schema %}
+{
+  "name": "Header",
+  "settings": [
+    { "type": "link_list", "id": "menu", "label": "Menu", "default": "main-menu" },
+    { "type": "image_picker", "id": "logo", "label": "Logo image", "info": "Leave empty to use the text logo below." },
+    { "type": "text", "id": "logo_text_1", "label": "Logo text", "default": "an appeal to" },
+    { "type": "text", "id": "logo_text_2", "label": "Logo text (italic, green)", "default": "larp" }
+  ]
+}
+{% endschema %}

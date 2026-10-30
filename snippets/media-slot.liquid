@@ -1,0 +1,17 @@
+{%- comment -%}
+  An image box that falls back to an empty placeholder until an image is picked in the theme editor.
+  Usage: {% render 'media-slot', image: section.settings.image, label: 'Hero image', class: 'r-45', sizes: '50vw', eager: true %}
+{%- endcomment -%}
+<div class="slot{% if image != blank %} has-media{% endif %} {{ class }}">
+  {%- if image != blank -%}
+    {%- liquid
+      assign loading = 'lazy'
+      if eager
+        assign loading = 'eager'
+      endif
+    -%}
+    {{ image | image_url: width: 1800 | image_tag: class: 'slot-media', loading: loading, sizes: sizes, widths: '400, 600, 900, 1200, 1800', alt: image.alt }}
+  {%- else -%}
+    <div class="slot-fallback"><div class="empty-art">{% render 'icon', name: 'pine' %}<span>{{ label | default: 'Image' }}</span></div></div>
+  {%- endif -%}
+</div>

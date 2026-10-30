@@ -1,0 +1,79 @@
+{%- comment -%} Search, 404, collections list, blog, article and password pages. {%- endcomment -%}
+<section class="wrap text-page">
+  {%- case request.page_type -%}
+    {%- when 'search' -%}
+      <h1 class="display sm">Search</h1>
+      <form action="{{ routes.search_url }}" method="get" class="email-form search-form" role="search">
+        <input type="search" name="q" value="{{ search.terms | escape }}" placeholder="Search tees" aria-label="Search">
+        <input type="hidden" name="type" value="product">
+        <button class="btn btn-dark">Search</button>
+      </form>
+      {%- if search.performed -%}
+        <p class="muted small results-count">{{ search.results_count }} results for “{{ search.terms | escape }}”</p>
+        <div class="grid">
+          {%- for item in search.results -%}
+            {%- if item.object_type == 'product' -%}{% render 'product-card', product: item %}{%- endif -%}
+          {%- endfor -%}
+        </div>
+      {%- endif -%}
+
+    {%- when '404' -%}
+      <h1 class="display sm">Page not found</h1>
+      <p class="muted">This page went surfing.</p>
+      <a href="{{ routes.all_products_collection_url }}" class="btn btn-dark">Shop tees</a>
+
+    {%- when 'list-collections' -%}
+      <h1 class="display sm">Collections</h1>
+      <div class="grid">
+        {%- for c in collections -%}
+          <a href="{{ c.url }}" class="card">
+            <div class="card-media">{% render 'media-slot', image: c.featured_image, label: c.title %}</div>
+            <div class="card-info"><span>{{ c.title }}</span><span class="muted">{{ c.products_count }}</span></div>
+          </a>
+        {%- endfor -%}
+      </div>
+
+    {%- when 'blog' -%}
+      <h1 class="display sm">{{ blog.title }}</h1>
+      {%- paginate blog.articles by 12 -%}
+        <div class="grid">
+          {%- for article in blog.articles -%}
+            <a href="{{ article.url }}" class="card">
+              <div class="card-media">{% render 'media-slot', image: article.image, label: 'Image' %}</div>
+              <div class="card-info"><span>{{ article.title }}</span><span class="muted">{{ article.published_at | date: '%b %d' }}</span></div>
+            </a>
+          {%- endfor -%}
+        </div>
+        {%- if paginate.pages > 1 -%}<nav class="pagination">{{ paginate | default_pagination }}</nav>{%- endif -%}
+      {%- endpaginate -%}
+
+    {%- when 'article' -%}
+      <p class="muted small">{{ article.published_at | date: '%B %d, %Y' }}</p>
+      <h1 class="display sm">{{ article.title }}</h1>
+      {%- if article.image -%}<div class="article-img">{% render 'media-slot', image: article.image, class: 'r-219' %}</div>{%- endif -%}
+      <div class="rte">{{ article.content }}</div>
+
+    {%- when 'password' -%}
+      <div class="password">
+        <div class="logo"><span class="logo-mark">{% render 'icon', name: 'pine' %}</span><span>{{ shop.name }}</span></div>
+        <h1 class="display sm">Opening soon</h1>
+        {%- if shop.password_message != blank -%}<p class="muted">{{ shop.password_message }}</p>{%- endif -%}
+        {%- form 'customer', class: 'email-form-wrap' -%}
+          <input type="hidden" name="contact[tags]" value="prospect,password page">
+          {%- if form.posted_successfully? -%}<p class="thanks">You are on the list.</p>{%- else -%}
+            <div class="email-form"><input type="email" name="contact[email]" required placeholder="Email address" aria-label="Email address"><button class="btn btn-dark">Notify me</button></div>
+          {%- endif -%}
+        {%- endform -%}
+        <details class="pw-login"><summary class="link-btn">Enter with password</summary>
+          {%- form 'storefront_password' -%}
+            {{ form.errors | default_errors }}
+            <div class="email-form"><input type="password" name="password" placeholder="Password" aria-label="Password"><button class="btn btn-dark">Enter</button></div>
+          {%- endform -%}
+        </details>
+      </div>
+  {%- endcase -%}
+</section>
+
+{% schema %}
+{ "name": "Page content" }
+{% endschema %}
